@@ -1,10 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express, { Application } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import db from './models';
+import exmapleRoutes from './routes/example.routes';
 
-const app = express();
+const app: Application = express();
 
-const db = require('./app/models');
 db.sequelize.sync({ force: true }).then(() => {
   console.log('Drop and re-sync db.');
 });
@@ -26,7 +27,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Bare Bones Node Bounded Context' });
 });
 
-require('./app/routes/example.routes')(app);
+exmapleRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

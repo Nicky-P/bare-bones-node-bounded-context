@@ -1,9 +1,10 @@
-const dbConfig = require('../config/db.config.js');
+import dbConfig from '../config/db.config';
+import { Sequelize, Dialect } from 'sequelize';
+import examplesModel from './examples.model';
 
-const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
-  dialect: dbConfig.dialect,
+  dialect: dbConfig.dialect as Dialect,
   dialectOptions: {
     timezone: process.env.db_timezone,
   },
@@ -16,11 +17,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   },
 });
 
-const db = {};
+const db = {
+  Sequelize: Sequelize,
+  sequelize: sequelize,
+  examples: examplesModel(sequelize),
+};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.examples = require('./examples.model.js')(sequelize, Sequelize);
-
-module.exports = db;
+export default db;

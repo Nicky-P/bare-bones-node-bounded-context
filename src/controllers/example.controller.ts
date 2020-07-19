@@ -1,8 +1,8 @@
-const db = require('../models');
+import { Request, Response } from 'express';
+import db from '../models';
 const Examples = db.examples;
-const Op = db.Sequelize.Op;
 
-exports.create = (req, res) => {
+export const create = (req: Request, res: Response) => {
   if (req.body.userId == undefined) {
     res.status(400).send({
       message: 'Must supply a userId.',
@@ -27,7 +27,7 @@ exports.create = (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
+export const findAll = (req: Request, res: Response) => {
   Examples.findAll()
     .then((data) => {
       res.send(data);
