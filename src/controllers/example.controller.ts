@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import db from '../models';
+
 const Examples = db.examples;
 
 export const create = (req: Request, res: Response) => {
