@@ -1,16 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { createExampleResponseDec, getExamplesResponseDec } from '../routes/messages/exampleTypes';
+import { assignResValidatorValues } from '../utils/helpers';
 import db from '../models';
-
 const Examples = db.examples;
 
-export const create = (req: Request, res: Response) => {
-  if (req.body.userId == undefined) {
-    res.status(400).send({
-      message: 'Must supply a userId.',
-    });
-    return;
-  }
-
+export const create = (req: Request, res: Response, next: NextFunction) => {
   const example = {
     exampleText: req.body.exampleText,
     createdBy: req.body.userId,
@@ -19,7 +13,8 @@ export const create = (req: Request, res: Response) => {
 
   Examples.create(example)
     .then((data) => {
-      res.send(data);
+      assignResValidatorValues(res, data, createExampleResponseDec);
+      next();
     })
     .catch((err) => {
       res.status(500).send({
@@ -28,10 +23,11 @@ export const create = (req: Request, res: Response) => {
     });
 };
 
-export const findAll = (req: Request, res: Response) => {
+export const findAll = (req: Request, res: Response, next: NextFunction) => {
   Examples.findAll()
     .then((data) => {
-      res.send(data);
+      assignResValidatorValues(res, data, getExamplesResponseDec);
+      next();
     })
     .catch((err) => {
       res.status(500).send({
