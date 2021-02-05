@@ -1,7 +1,7 @@
 export default {
   HOST: 'localhost',
   USER: 'root',
-  PASSWORD: 'test',
+  PASSWORD: 'admin',
   DB: 'Example',
   dialect: 'mariadb',
   pool: {
