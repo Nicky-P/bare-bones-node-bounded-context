@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      discovery.type: single-node
+      xpack.license.self_generated.type: trial
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge

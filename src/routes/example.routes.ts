@@ -1,7 +1,8 @@
 import { Application, Router, Request, Response, NextFunction } from 'express';
-import * as exampleController from '../controllers/example.controller';
+import * as exampleController from '../controllers/exampleDB.controller';
 import { requestValidator, responseValidator } from '../utils/middleware';
 import * as exampleTypes from '../routes/messages/exampleTypes';
+import * as elasticController from '../controllers/exampleES.controller';
 
 export default (app: Application) => {
   var router = Router();
@@ -10,6 +11,8 @@ export default (app: Application) => {
   router.post('/', requestValidator(exampleTypes.createExampleRequestDec), exampleController.create);
 
   router.get('/', requestValidator(exampleTypes.emptyRequestDec), exampleController.findAll);
+
+  router.get('/elasticSearch/', requestValidator(exampleTypes.emptyRequestDec), elasticController.getAll);
 
   app.use(responseValidator);
 

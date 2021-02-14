@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { createExampleResponseDec, getExamplesResponseDec } from '../routes/messages/exampleTypes';
-import { assignResValidatorValues } from '../utils/helpers';
+import { assignDbResValidatorValues } from '../utils/helpers';
 import db from '../models';
 const Examples = db.examples;
 
@@ -13,7 +13,7 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
 
   Examples.create(example)
     .then((data) => {
-      assignResValidatorValues(res, data, createExampleResponseDec);
+      assignDbResValidatorValues(res, data, createExampleResponseDec);
       next();
     })
     .catch((err) => {
@@ -26,12 +26,12 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
 export const findAll = (req: Request, res: Response, next: NextFunction) => {
   Examples.findAll()
     .then((data) => {
-      assignResValidatorValues(res, data, getExamplesResponseDec);
+      assignDbResValidatorValues(res, data, getExamplesResponseDec);
       next();
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Some error occurred while retriving examples',
+        message: err.message || 'Some error occurred while retriving examples from the database',
       });
     });
 };

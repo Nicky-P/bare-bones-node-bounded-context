@@ -17,3 +17,5 @@ const ExampleResponse = D.type({
 });
 export const createExampleResponseDec = ExampleResponse;
 export const getExamplesResponseDec = D.array(ExampleResponse);
+
+export const esExampleResponseDec = D.array(D.type({ exampleText: D.string }));
