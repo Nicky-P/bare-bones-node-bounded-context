@@ -12,11 +12,11 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
   };
 
   Examples.create(example)
-    .then((data) => {
+    .then(data => {
       assignDbResValidatorValues(res, data, createExampleResponseDec);
       next();
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).send({
         message: err.message || 'Some error occurred while creating the example.',
       });
@@ -25,11 +25,11 @@ export const create = (req: Request, res: Response, next: NextFunction) => {
 
 export const findAll = (req: Request, res: Response, next: NextFunction) => {
   Examples.findAll()
-    .then((data) => {
+    .then(data => {
       assignDbResValidatorValues(res, data, getExamplesResponseDec);
       next();
     })
-    .catch((err) => {
+    .catch(err => {
       res.status(500).send({
         message: err.message || 'Some error occurred while retriving examples from the database',
       });

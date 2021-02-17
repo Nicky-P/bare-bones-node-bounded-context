@@ -6,10 +6,6 @@ import exmapleRoutes from './routes/example.routes';
 
 const app: Application = express();
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log('Drop and re-sync db.');
-});
-
 var corsOptions = {
   origin: 'http://localhost:8081',
 };

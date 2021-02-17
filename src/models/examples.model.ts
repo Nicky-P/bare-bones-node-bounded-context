@@ -29,9 +29,9 @@ export default (sequelize: Sequelize) => {
       },
     },
     {
-      tableName: 'examples',
+      tableName: 'Examples',
       sequelize,
-    },
+    }
   );
 
   return Examples;
