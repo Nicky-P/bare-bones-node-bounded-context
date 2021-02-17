@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
-import * as D from 'io-ts/lib/Decoder';
-import { pipe } from 'fp-ts/lib/pipeable';
-import { fold } from 'fp-ts/lib/Either';
+import * as D from 'io-ts/Decoder';
+import { pipe } from 'fp-ts/function';
+import { fold } from 'fp-ts/Either';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { Request, Response, NextFunction } from 'express';
 
@@ -24,9 +24,7 @@ export const responseValidator = (req: Request, res: Response, next: NextFunctio
     decoder.decode(res.locals.responseData),
     fold(
       errors => res.status(500).send({ code: 'InternalServerError', status: 'error', error: D.draw(errors) }),
-      () => {
-        res.send(res.locals.responseData);
-      }
+      decodedResp => res.send(JSON.parse(JSON.stringify(decodedResp)))
     )
   );
 };
