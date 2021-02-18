@@ -52,24 +52,22 @@ export interface SearchResponse<T> {
   aggregations?: any;
 }
 
-export const getAll = (req: Request, res: Response, next: NextFunction) => {
-  client
-    .search<SearchResponse<String>, SearchBody>({
-      index: 'example',
-      body: {
-        query: {
-          match_all: {},
-        },
+export async function getAll(req: Request, res: Response, next: NextFunction) {
+  const response = await client.search<SearchResponse<String>, SearchBody>({
+    index: 'example',
+    body: {
+      query: {
+        match_all: {},
       },
-    })
-    .then(response => {
-      console.log(response.body);
-      assignEsResValidatorValues(res, response.body, esExampleResponseDec);
-      next();
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || 'Some error occurred while retriving examples from Elasticsearch',
-      });
+    },
+  });
+  try {
+    console.log(response.body);
+    assignEsResValidatorValues(res, response.body, esExampleResponseDec);
+    next();
+  } catch (e) {
+    res.status(500).send({
+      message: e.message || 'Some error occurred while retriving examples from Elasticsearch',
     });
-};
+  }
+}
