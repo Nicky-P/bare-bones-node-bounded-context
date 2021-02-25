@@ -4,7 +4,14 @@ var client = new elastic.Client({ host: 'localhost:9200' });
 var index = 'exampleindex';
 
 (function init() {
-  Promise.resolve().then(deleteIndex, errorHandler).then(createIndex, errorHandler).then(putMapping, errorHandler);
+  Promise.resolve()
+    .then(deleteIndex, errorHandler)
+    .then(createIndex, errorHandler)
+    .then(checkStatus, errorHandler)
+    .then(closeIndex, errorHandler)
+    .then(putSettings, errorHandler)
+    .then(putMapping, errorHandler)
+    .then(openIndex, errorHandler);
 })();
 
 function deleteIndex() {
@@ -24,6 +31,55 @@ function createIndex() {
   return client.indices
     .create({
       index: index,
+      body: {
+        settings: {
+          index: {
+            number_of_replicas: 0,
+          },
+        },
+      },
+    })
+    .then(handleResolve);
+}
+
+function checkStatus() {
+  console.log('Checking status...');
+
+  return client.cluster
+    .health({
+      index: index,
+    })
+    .then(handleResolve);
+}
+
+function closeIndex() {
+  console.log('Closing index...');
+
+  return client.indices
+    .close({
+      index: index,
+    })
+    .then(handleResolve);
+}
+
+function putSettings() {
+  console.log('Put settings...');
+
+  return client.indices
+    .putSettings({
+      index: index,
+      body: {
+        settings: {
+          analysis: {
+            analyzer: {
+              folding: {
+                tokenizer: 'standard',
+                filter: ['lowercase', 'asciifolding'],
+              },
+            },
+          },
+        },
+      },
     })
     .then(handleResolve);
 }
@@ -43,6 +99,16 @@ function putMapping() {
           },
         },
       },
+    })
+    .then(handleResolve);
+}
+
+function openIndex() {
+  console.log('Open index ...');
+
+  return client.indices
+    .open({
+      index: index,
     })
     .then(handleResolve);
 }
