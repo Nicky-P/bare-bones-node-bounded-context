@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { createExampleResponseDec, getExamplesResponseDec } from '../routes/messages/exampleTypes';
+import { createExampleResponseDec, getExamplesResponseDec } from '../routes/messages/exampleDb.types';
 import { assignDbResValidatorValues } from '../utils/helpers';
 import db from '../models';
 const Examples = db.examples;

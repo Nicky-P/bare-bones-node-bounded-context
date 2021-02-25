@@ -5,9 +5,20 @@ import { fold } from 'fp-ts/Either';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { Request, Response, NextFunction } from 'express';
 
+export const structureRequest = (req: Request, res: Response, next: NextFunction) => {
+  res.locals.structuredRequest = {
+    body: req.body,
+    query: req.query,
+    params: req.params,
+  };
+  next();
+};
+
 export const requestValidator: <T, A>(decoder: D.Decoder<T, A>) => RequestHandler<ParamsDictionary, any, T> = decoder => (req, res, next) => {
+  console.log(res.locals.structuredRequest);
+
   return pipe(
-    decoder.decode(req.body),
+    decoder.decode(res.locals.structuredRequest),
     fold(
       errors => res.status(400).send({ code: 'BadArgument', status: 'error', error: D.draw(errors) }),
       () => next()
