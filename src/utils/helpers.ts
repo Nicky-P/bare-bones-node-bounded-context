@@ -7,12 +7,7 @@ interface SimpleObject {
 }
 
 export const assignDbResValidatorValues = (res: Response, data: SimpleObject, decoder: D.Decoder<unknown, object>) => {
-  const formatedData: SimpleObject = {};
-  for (const property in data) {
-    formatedData[property] = data[property] instanceof Model ? data[property].get({ plain: true }) : data[property];
-  }
-
-  res.locals.responseData = formatedData;
+  res.locals.responseData = data instanceof Model ? data.get({ plain: true }) : data;
   res.locals.decoder = decoder;
 };
 
