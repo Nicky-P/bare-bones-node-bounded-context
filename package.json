@@ -8,8 +8,7 @@
     "build": "tsc",
     "watch:build": "tsc --watch",
     "watch:server": "nodemon './dist/server.js' --watch './dist'",
-    "start": "npm-run-all clean build --parallel watch:build watch:server --print-label",
-    "build-example-es": "npm-run-all clean build --print-label && node './dist/index-importers/example/buildConfig.js'"
+    "start": "npm-run-all clean build --parallel watch:build watch:server --print-label"
   },
   "author": "",
   "license": "ISC",

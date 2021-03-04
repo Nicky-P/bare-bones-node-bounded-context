@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   elasticsearch:
@@ -9,9 +9,3 @@ services:
     environment:
       discovery.type: single-node
       xpack.license.self_generated.type: trial
-    networks:
-      - elk
-
-networks:
-  elk:
-    driver: bridge

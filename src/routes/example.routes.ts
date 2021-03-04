@@ -1,5 +1,5 @@
 import { Application, Router, Request, Response, NextFunction } from 'express';
-import * as exampleController from '../controllers/exampleDb.controller';
+import * as dbController from '../controllers/exampleDB.controller';
 import { structureRequest, requestValidator, responseValidator } from '../utils/middleware';
 import * as exampleDbTypes from './messages/exampleDb.types';
 import * as exampleEsTypes from './messages/exampleEs.types';
@@ -12,9 +12,9 @@ export default (app: Application) => {
 
   app.use('/api/examples', router);
 
-  router.post('/', requestValidator(exampleDbTypes.createExampleRequestDec), exampleController.create);
+  router.post('/', requestValidator(exampleDbTypes.createExampleRequestDec), dbController.create);
 
-  router.get('/', requestValidator(exampleDbTypes.emptyRequestDec), exampleController.findAll);
+  router.get('/', requestValidator(exampleDbTypes.emptyRequestDec), dbController.findAll);
 
   router.get('/es/example-suggestion', requestValidator(exampleEsTypes.esExampleRequestDec), elasticController.getAll);
 

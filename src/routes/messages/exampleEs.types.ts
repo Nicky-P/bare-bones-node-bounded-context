@@ -1,10 +1,6 @@
 import * as D from 'io-ts/lib/Decoder';
-
-export interface SearchBody {
-  query: {
-    match_all: {};
-  };
-}
+import { pipe } from 'fp-ts/function';
+import * as t from 'io-ts';
 
 interface ShardsResponse {
   total: number;
@@ -63,9 +59,16 @@ export interface ExampleSuggestionResponse<T> {
   aggregations?: any;
 }
 
-export const esExampleRequestDec = D.type({
-  query: D.type({
-    queryText: D.string,
+export const esExampleRequestDec = pipe(
+  D.type({
+    query: D.type({
+      queryText: D.string,
+    }),
   }),
-});
+  D.intersect(
+    D.partial({
+      size: D.string,
+    })
+  )
+);
 export const esExampleResponseDec = D.type({ exampleSuggestions: D.array(D.string) });

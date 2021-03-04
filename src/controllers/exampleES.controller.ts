@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { Client } from '@elastic/elasticsearch';
 import { assignEsResValidatorValues } from '../utils/helpers';
-import { ExampleSuggestionResponse, SearchBody, esExampleResponseDec } from '../routes/messages/exampleEs.types';
+import { ExampleSuggestionResponse, esExampleResponseDec } from '../routes/messages/exampleEs.types';
 
 const client = new Client({ node: 'http://localhost:9200' });
 
 export async function getAll(req: Request, res: Response, next: NextFunction) {
   try {
+    const size = !req.query.size || +req.query.size > 5 ? 5 : req.query.size;
     const response = await client.search<ExampleSuggestionResponse<String>>({
       index: 'exampleindex',
       body: {
@@ -14,8 +15,8 @@ export async function getAll(req: Request, res: Response, next: NextFunction) {
           exampleAutoComplete: {
             prefix: req.query.queryText,
             completion: {
-              field: 'example',
-              size: 3,
+              field: 'exampleText',
+              size: size,
               fuzzy: {
                 fuzziness: 2,
               },
