@@ -15,8 +15,6 @@ export const structureRequest = (req: Request, res: Response, next: NextFunction
 };
 
 export const requestValidator: <T, A>(decoder: D.Decoder<T, A>) => RequestHandler<ParamsDictionary, any, T> = decoder => (req, res, next) => {
-  console.log(res.locals.structuredRequest);
-
   return pipe(
     decoder.decode(res.locals.structuredRequest),
     fold(
