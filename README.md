@@ -12,6 +12,7 @@ Bounded context set up with Typescript, Node, Express, Sequelize, Elasticsearch 
 6. Place the .jar in the root directory of the logstash folder
 7. Open terminal in the root directory of the logstash folder and run command: bin/logstash -f example_logstash.config
 
-Troubleshooting: Check http://localhost:9200/\_template/logstash-example-template to see if template has been added
+<!-- prettier-ignore -->
+Troubleshooting: Check http://localhost:9200/_template/logstash-example-template to see if template has been added
 
 Note: There is likely a better way to get this running using docker. Unfortunately, I'm using an M1 mac and a logstash docker image is not yet available for the ARM64 architecture. Using "platform: linux/amd64" in docker-compose seems to download the image fine, but throws an error that I haven't been able to get passed when being run. I'll revist this.
