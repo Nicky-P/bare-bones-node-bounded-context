@@ -1,6 +1,5 @@
 import * as D from 'io-ts/lib/Decoder';
 import { pipe } from 'fp-ts/function';
-import * as t from 'io-ts';
 
 interface ShardsResponse {
   total: number;
