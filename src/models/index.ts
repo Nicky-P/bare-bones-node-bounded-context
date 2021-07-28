@@ -1,19 +1,18 @@
-import dbConfig from '../config/db.config';
 import { Sequelize, Dialect } from 'sequelize';
 import examplesModel from './examples.model';
+import { nodeEnv } from '../config';
+var dbConfig = require('../config/db.config');
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
-  dialect: dbConfig.dialect as Dialect,
-  dialectOptions: {
-    timezone: process.env.db_timezone,
-  },
+const envDBConfig = nodeEnv == 'production' ? dbConfig.production : dbConfig.development;
 
+const sequelize = new Sequelize(envDBConfig.database, envDBConfig.username, envDBConfig.password, {
+  host: envDBConfig.host,
+  dialect: envDBConfig.dialect as Dialect,
   pool: {
-    max: dbConfig.pool.max,
-    min: dbConfig.pool.min,
-    acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle,
+    max: envDBConfig.pool.max,
+    min: envDBConfig.pool.min,
+    acquire: envDBConfig.pool.acquire,
+    idle: envDBConfig.pool.idle,
   },
 });
 

@@ -1,22 +1,22 @@
 import { Application, Router, Request, Response, NextFunction } from 'express';
-import * as dbController from '../controllers/exampleDB.controller';
+import * as dbController from '../controllers/v1/exampleDB.controller';
 import { structureRequest, requestValidator, responseValidator } from '../utils/middleware';
-import * as exampleDbTypes from './messages/exampleDb.types';
-import * as exampleEsTypes from './messages/exampleEs.types';
-import * as elasticController from '../controllers/exampleEs.controller';
+import * as exampleDbTypes from './messages/v1/exampleDb.types';
+import * as exampleEsTypes from './messages/v1/exampleEs.types';
+import * as elasticController from '../controllers/v1/exampleEs.controller';
 
 export default (app: Application) => {
   var router = Router();
 
   app.use(structureRequest);
 
-  app.use('/api/examples', router);
+  app.use('/api', router);
 
-  router.post('/', requestValidator(exampleDbTypes.createExampleRequestDec), dbController.create);
+  router.post('/v1/examples', requestValidator(exampleDbTypes.createExampleRequestDec), dbController.create);
 
-  router.get('/', requestValidator(exampleDbTypes.emptyRequestDec), dbController.findAll);
+  router.get('/v1/examples', requestValidator(exampleDbTypes.emptyRequestDec), dbController.findAll);
 
-  router.get('/es/example-suggestion', requestValidator(exampleEsTypes.esExampleRequestDec), elasticController.getAll);
+  router.get('/v1/es/example-suggestion', requestValidator(exampleEsTypes.esExampleRequestDec), elasticController.getAll);
 
   app.use(responseValidator);
 

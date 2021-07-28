@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { Client } from '@elastic/elasticsearch';
-import { assignEsResValidatorValues } from '../utils/helpers';
-import { ExampleSuggestionResponse, esExampleResponseDec } from '../routes/messages/exampleEs.types';
+import { assignEsResValidatorValues } from '../../utils/helpers';
+import { ExampleSuggestionResponse, esExampleResponseDec } from '../../routes/messages/v1/exampleEs.types';
+import { esHost } from '../../config';
 
-const client = new Client({ node: 'http://localhost:9200' });
+const client = new Client({ node: esHost });
 
 export async function getAll(req: Request, res: Response, next: NextFunction) {
   try {

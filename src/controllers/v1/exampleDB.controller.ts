@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { createExampleResponseDec, getExamplesResponseDec } from '../routes/messages/exampleDb.types';
-import { assignDbResValidatorValues } from '../utils/helpers';
-import db from '../models';
+import { createExampleResponseDec, getExamplesResponseDec } from '../../routes/messages/v1/exampleDb.types';
+import { assignDbResValidatorValues } from '../../utils/helpers';
+import db from '../../models';
 const Examples = db.examples;
 
 export async function create(req: Request, res: Response, next: NextFunction) {
